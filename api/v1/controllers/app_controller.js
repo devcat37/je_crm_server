@@ -10,6 +10,8 @@ class AppController {
         if(!appBundleIos && !appBundleAndroid) {
             return ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!')
         }
+
+        res.json('jopa')
     }
 
     async getAll(req, res) {
