@@ -2,6 +2,7 @@ const ApiError = require('../../error/api_error')
 
 class AppController {
     async create(req, res) {
+        console.log('Hello')
         const query = req.query
 
         const appBundleIos = query.app_bundle_ios
