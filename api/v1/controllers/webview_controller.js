@@ -19,7 +19,7 @@ class WebviewController {
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const webviews = await Webview.findAll()
 
