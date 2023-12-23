@@ -17,3 +17,7 @@ const Webview = sequelize.define('webview', {
 
 App.hasOne(Webview)
 Webview.belongsTo(App)
+
+module.exports = {
+    App, Webview
+}
