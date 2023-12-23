@@ -3,7 +3,6 @@ const {App} = require('../../../models/models')
 
 class AppController {
     async create(req, res, next) {
-        console.log('Hello')
         const body = req.body
 
         const app_bundle_ios = body.app_bundle_ios
