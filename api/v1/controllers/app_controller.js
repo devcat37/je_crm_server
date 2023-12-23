@@ -1,5 +1,5 @@
 const ApiError = require('../../error/api_error')
-const {App} = require('../../../models/models')
+const { App } = require('../../../models/models')
 
 class AppController {
     async create(req, res, next) {
