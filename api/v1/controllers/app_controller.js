@@ -19,7 +19,8 @@ class AppController {
     }
 
     async getAll(req, res, next) {
-        return next(res.json({'ping': 'pong'}))
+        res.json({'ping': 'pong'})
+        return next()
     }
 }
 
