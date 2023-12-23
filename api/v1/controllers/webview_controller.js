@@ -36,11 +36,11 @@ class WebviewController {
 
     async edit(req, res, next) {
         try {
-            const {id} = req.query
+            const {id} = req.params
             const body = req.body
 
             const webview = await Webview.findByPk(id)
-            webview.update(body)
+            await webview.update(body)
 
             // Сохраняем изменения.
             await webview.save()
