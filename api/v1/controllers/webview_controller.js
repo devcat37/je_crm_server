@@ -30,8 +30,22 @@ class WebviewController {
         }
     }
 
-    async getOne(req, res) {
+    async getOne(req, res, next) {
 
+    }
+
+    async edit(req, res, next) {
+        try {
+            const {id} = req.query
+            const body = req.body
+
+            const webview = await Webview.update(body)
+            res.body = webview
+
+            return next(res)
+        } catch (error) {
+            return next(error)
+        }
     }
 }
 
