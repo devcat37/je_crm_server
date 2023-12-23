@@ -13,7 +13,7 @@ class AppController {
     }
 
     async getAll(req, res) {
-        
+        res.json({'ping': 'pong'})
     }
 }
 
