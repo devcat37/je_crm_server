@@ -1,7 +1,7 @@
 const ApiError = require('../../error/api_error')
 
 class AppController {
-    async create(req, res) {
+    async create(req, res, next) {
         console.log('Hello')
         const query = req.body
 
@@ -9,7 +9,7 @@ class AppController {
         const appBundleAndroid = query.app_bundle_android
 
         if(!appBundleIos && !appBundleAndroid) {
-            return ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!')
+            return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
         }
 
         res.json('jopa')
