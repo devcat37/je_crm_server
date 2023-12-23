@@ -7,6 +7,8 @@ const cors = require('cors')
 const models = require('./models/models')
 const routerV1 = require('./api/v1/routes/index')
 
+const errorHandler = require('./api/middlewares/error_handling_middleware')
+
 const PORT = process.env.PORT || 5000
 const app = express()
 
@@ -14,6 +16,9 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api/v1', routerV1)
+
+// После всех app.use
+app.use(errorHandler)
 
 const start = async () => {
     try {

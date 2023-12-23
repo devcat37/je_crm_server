@@ -1,7 +1,9 @@
 const Router = require('express')
 const router = new Router()
 
-router.get('/')
-router.post('/')
+const appController = require('../controllers/app_controller')
+
+router.get('/', appController.getAll)
+router.post('/', appController.create)
 
 module.exports = router
