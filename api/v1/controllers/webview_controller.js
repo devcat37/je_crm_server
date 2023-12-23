@@ -6,8 +6,8 @@ class WebviewController {
         try {
             const {appId, reference, enabled} = req.body
 
-            if(!app_id) {
-                return next(ApiError.badRequest('Нет параметра app_id!'))
+            if(!appId) {
+                return next(ApiError.badRequest('Нет параметра appId!'))
             }
 
             const webview = await Webview.create({appId, reference, enabled})
