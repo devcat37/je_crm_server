@@ -39,7 +39,12 @@ class WebviewController {
             const {id} = req.query
             const body = req.body
 
-            const webview = await Webview.update(body)
+            const webview = await Webview.findByPk(id)
+            webview.update(body)
+
+            // Сохраняем изменения.
+            await webview.save()
+            
             res.body = webview
 
             return next(res)
