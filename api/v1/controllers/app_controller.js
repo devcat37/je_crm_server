@@ -14,7 +14,8 @@ class AppController {
 
         const app = await App.create({app_bundle_ios, app_bundle_android});
         
-        return next(res.json(app))
+        res.json(app)
+        return next()
     }
 
     async getAll(req, res, next) {

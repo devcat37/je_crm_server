@@ -1,8 +1,8 @@
 
 module.exports = function(err, req, res, next) {
-    console.log(err)
+    res.body = {
+        'data': res.body,
+    }
 
-    return res.status(200).json(
-        {'data': res.json},
-    )
+    return next()
 }
