@@ -24,7 +24,9 @@ class AppController {
 
     async getAll(req, res, next) {
         try {
-            res.body = {'ping': 'pong'}
+            const apps = await App.findAll()
+
+            res.body = apps
             return next(res)
         } catch (error) {
             return next(error)
