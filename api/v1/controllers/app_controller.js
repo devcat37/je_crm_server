@@ -3,7 +3,7 @@ const ApiError = require('../../error/api_error')
 class AppController {
     async create(req, res) {
         console.log('Hello')
-        const query = req.query
+        const query = req.body
 
         const appBundleIos = query.app_bundle_ios
         const appBundleAndroid = query.app_bundle_android
