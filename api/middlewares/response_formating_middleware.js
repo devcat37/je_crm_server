@@ -1,7 +1,5 @@
 
-module.exports = function(err, req, res, next) {
-    console.log(err)
-
+module.exports = function(req, res, next) {
     // Format response.
     res.body = {
         'data': res.body,
