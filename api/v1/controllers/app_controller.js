@@ -14,13 +14,13 @@ class AppController {
 
         const app = await App.create({app_bundle_ios, app_bundle_android});
         
-        res.json(app)
-        return next()
+        res.body = app
+        return next(res)
     }
 
     async getAll(req, res, next) {
-        res.json({'ping': 'pong'})
-        return next()
+        res.body = {'ping': 'pong'}
+        return next(res)
     }
 }
 

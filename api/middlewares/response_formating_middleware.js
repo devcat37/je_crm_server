@@ -4,5 +4,5 @@ module.exports = function(err, req, res, next) {
         'data': res.body,
     }
 
-    return next()
+    return res.json(res.body)
 }
