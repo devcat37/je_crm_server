@@ -26,7 +26,7 @@ class AppController {
         try {
             const apps = await App.findAll({
                 include: [{
-                    association: 'webviews',
+                    association: 'webview',
                     right: true,
                   }],
             })
