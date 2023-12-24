@@ -3,6 +3,7 @@ const {DataTypes} = require('sequelize')
 
 const App = sequelize.define('app', {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+        name: {type: DataTypes.STRING, allowNull: false},
         app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
         app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
     }

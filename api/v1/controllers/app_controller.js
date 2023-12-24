@@ -24,7 +24,12 @@ class AppController {
 
     async getAll(req, res, next) {
         try {
-            const apps = await App.findAll()
+            const apps = await App.findAll({
+                include: [{
+                    association: 'webviews',
+                    right: true,
+                  }],
+            })
 
             res.body = apps
             return next(res)
