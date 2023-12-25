@@ -3,7 +3,19 @@ const { App } = require('../../../models/models')
 
 class AppController {
 
-    
+    static appAssosiations = [
+        {
+            association: 'webview',
+        },
+        {
+            association: 'appsflyer',
+            allowNull: true,
+        },
+        {
+            association: 'apphud',
+            allowNull: true,
+        },
+    ]
 
     async create(req, res, next) {
         try {
@@ -28,20 +40,7 @@ class AppController {
     async getAll(req, res, next) {
         try {
             const apps = await App.findAll({
-                include: [
-                    {
-                        association: 'webview',
-                        right: true,
-                    },
-                    {
-                        association: 'appsflyer',
-                        right: true,
-                    },
-                    {
-                        association: 'apphud',
-                        right: true,
-                    },
-                ],
+                include: AppController.appAssosiations,
             })
 
             res.body = apps
@@ -55,20 +54,7 @@ class AppController {
         try {
             const {id} = req.params
             const app = await App.findByPk(id, {
-                include: [
-                    {
-                        association: 'webview',
-                        right: true,
-                    },
-                    {
-                        association: 'appsflyer',
-                        right: true,
-                    },
-                    {
-                        association: 'apphud',
-                        right: true,
-                    },
-                ],
+                include: AppController.appAssosiations,
             })
 
             res.body = app
