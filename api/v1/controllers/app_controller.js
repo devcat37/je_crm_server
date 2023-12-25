@@ -37,6 +37,23 @@ class AppController {
             return next(error)
         }
     }
+
+    async getOne(req, res, next) {
+        try {
+            const {id} = req.params
+            const app = await App.findByPk(id, {
+                include: [{
+                    association: 'webview',
+                    right: true,
+                  }],
+            })
+
+            res.body = app
+            next(res)
+        } catch (error) {
+            return next(error)
+        }
+    }
 }
 
 module.exports = new AppController()
