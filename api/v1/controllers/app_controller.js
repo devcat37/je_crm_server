@@ -2,6 +2,9 @@ const ApiError = require('../../error/api_error')
 const { App } = require('../../../models/models')
 
 class AppController {
+
+    
+
     async create(req, res, next) {
         try {
             const body = req.body
@@ -25,10 +28,20 @@ class AppController {
     async getAll(req, res, next) {
         try {
             const apps = await App.findAll({
-                include: [{
-                    association: 'webview',
-                    right: true,
-                  }],
+                include: [
+                    {
+                        association: 'webview',
+                        right: true,
+                    },
+                    {
+                        association: 'appsflyer',
+                        right: true,
+                    },
+                    {
+                        association: 'apphud',
+                        right: true,
+                    },
+                ],
             })
 
             res.body = apps
@@ -42,10 +55,20 @@ class AppController {
         try {
             const {id} = req.params
             const app = await App.findByPk(id, {
-                include: [{
-                    association: 'webview',
-                    right: true,
-                  }],
+                include: [
+                    {
+                        association: 'webview',
+                        right: true,
+                    },
+                    {
+                        association: 'appsflyer',
+                        right: true,
+                    },
+                    {
+                        association: 'apphud',
+                        right: true,
+                    },
+                ],
             })
 
             res.body = app

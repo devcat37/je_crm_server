@@ -16,9 +16,26 @@ const Webview = sequelize.define('webview', {
     }
 )
 
+const Appsflyer = sequelize.define('appsflyer', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    dev_key: {type: DataTypes.STRING, allowNull: false},
+    appsflyer_app_id: {type: DataTypes.STRING, allowNull: false},
+})
+
+const Apphud = sequelize.define('apphud', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    api_key: {type: DataTypes.STRING, allowNull: false},
+})
+
 App.hasOne(Webview)
 Webview.belongsTo(App)
 
+App.hasOne(Appsflyer)
+Appsflyer.belongsTo(App)
+
+App.hasOne(Apphud)
+Apphud.belongsTo(App)
+
 module.exports = {
-    App, Webview
+    App, Webview, Appsflyer, Apphud
 }
