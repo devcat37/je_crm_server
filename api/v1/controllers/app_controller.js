@@ -2,6 +2,37 @@ const ApiError = require('../../error/api_error')
 const { App } = require('../../../models/models')
 
 class AppController {
+    constructor () {
+        this.getByAppBundle = async (req, res, next) => {
+            try {
+                const { app_bundle_ios, app_bundle_android } = req.query
+    
+                if (!(app_bundle_ios || app_bundle_android)) {
+                    return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
+                }
+    
+                let app;
+    
+                if (app_bundle_ios) {
+                    app = await App.findOne({ 
+                        where: { app_bundle_ios: app_bundle_ios },
+                        include: AppController.appAssosiations,
+                        
+                    })
+                } else if (app_bundle_android) {
+                    app = await App.findOne({ 
+                        where: { app_bundle_android: app_bundle_android },
+                        include: AppController.appAssosiations,
+                    })
+                }
+    
+                res.body = app
+                return next(res)
+            } catch (error) {
+                return next(error)
+            }
+        }
+    }
 
     static appAssosiations = [
         {
