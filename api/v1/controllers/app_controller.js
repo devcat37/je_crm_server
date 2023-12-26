@@ -42,7 +42,7 @@ class AppController {
             const {app_bundle_ios, app_bundle_android} = req.query
 
             if (app_bundle_ios || app_bundle_android) {
-                return this.getByAppBundle(req, res, next)
+                return await this.getByAppBundle(req, res, next)
             }
 
             const apps = await App.findAll({
@@ -73,7 +73,7 @@ class AppController {
             }
 
             res.body = app
-            next(res)
+            return next(res)
         } catch (error) {
             return next(error)
         }
