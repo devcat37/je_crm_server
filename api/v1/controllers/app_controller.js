@@ -42,7 +42,8 @@ class AppController {
             const {app_bundle_ios, app_bundle_android} = req.query
 
             if (app_bundle_ios || app_bundle_android) {
-                return await this.getByAppBundle(req, res, next)
+                await this.getByAppBundle(req, res, next)
+                return
             }
 
             const apps = await App.findAll({
