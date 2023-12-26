@@ -2,6 +2,9 @@ const ApiError = require('../../error/api_error')
 const { App } = require('../../../models/models')
 
 class AppController {
+    constructor() {
+        this.getByAppBundle = this.getByAppBundle
+    }
 
     static appAssosiations = [
         {
