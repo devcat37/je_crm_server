@@ -43,7 +43,7 @@ class AppController {
             const { app_bundle_ios, app_bundle_android } = req.query
 
             if (app_bundle_ios || app_bundle_android) {
-                return await this.getOne(req, res, next)
+                return await AppController.getByAppBundle(req, res, next)
             }
 
             const apps = await App.findAll({
@@ -57,34 +57,34 @@ class AppController {
         }
     }
 
-    async getByAppBundle(req, res, next) {
-        // try {
-        //     const { app_bundle_ios, app_bundle_android } = req.query
+    static async getByAppBundle(req, res, next) {
+        try {
+            const { app_bundle_ios, app_bundle_android } = req.query
 
-        //     if (!(app_bundle_ios || app_bundle_android)) {
-        //         return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
-        //     }
+            if (!(app_bundle_ios || app_bundle_android)) {
+                return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
+            }
 
-        //     let app;
+            let app;
 
-        //     if (app_bundle_ios) {
-        //         app = await App.findOne({ 
-        //             where: { app_bundle_ios: app_bundle_ios },
-        //             include: AppController.appAssosiations,
+            if (app_bundle_ios) {
+                app = await App.findOne({ 
+                    where: { app_bundle_ios: app_bundle_ios },
+                    include: AppController.appAssosiations,
                     
-        //         })
-        //     } else if (app_bundle_android) {
-        //         app = await App.findOne({ 
-        //             where: { app_bundle_android: app_bundle_android },
-        //             include: AppController.appAssosiations,
-        //         })
-        //     }
+                })
+            } else if (app_bundle_android) {
+                app = await App.findOne({ 
+                    where: { app_bundle_android: app_bundle_android },
+                    include: AppController.appAssosiations,
+                })
+            }
 
-        //     res.body = app
-        //     return next(res)
-        // } catch (error) {
-        //     return next(error)
-        // }
+            res.body = app
+            return next(res)
+        } catch (error) {
+            return next(error)
+        }
     }
 
     async getOne(req, res, next) {
