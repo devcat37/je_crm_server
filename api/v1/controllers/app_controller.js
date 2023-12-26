@@ -39,12 +39,41 @@ class AppController {
 
     async getAll(req, res, next) {
         try {
+            const {app_bundle_ios, app_bundle_android} = req.query
+
+            if (app_bundle_ios || app_bundle_android) {
+                return await getByAppBundle(req, res, next)
+            }
+
             const apps = await App.findAll({
                 include: AppController.appAssosiations,
             })
 
             res.body = apps
             return next(res)
+        } catch (error) {
+            return next(error)
+        }
+    }
+
+    async getByAppBundle(req, res, next) {
+        try {
+            const {app_bundle_ios, app_bundle_android} = req.query
+
+            if(!(app_bundle_ios || app_bundle_android)) {
+                return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
+            }
+
+            let app;
+
+            if (app_bundle_ios) {
+                app = await App.findOne({ where: { app_bundle_ios: app_bundle_ios } })
+            } else if (app_bundle_android) {
+                app = await App.findOne({ where: { app_bundle_android: app_bundle_android } })
+            }
+
+            res.body = app
+            next(res)
         } catch (error) {
             return next(error)
         }
