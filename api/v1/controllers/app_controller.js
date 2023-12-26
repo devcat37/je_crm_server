@@ -2,9 +2,6 @@ const ApiError = require('../../error/api_error')
 const { App } = require('../../../models/models')
 
 class AppController {
-    constructor() {
-        this.getByAppBundle = this.getByAppBundle
-    }
 
     static appAssosiations = [
         {
@@ -45,8 +42,7 @@ class AppController {
             const {app_bundle_ios, app_bundle_android} = req.query
 
             if (app_bundle_ios || app_bundle_android) {
-                await this.getByAppBundle(req, res, next)
-                return
+                return this.getByAppBundle(req, res, next)
             }
 
             const apps = await App.findAll({
@@ -60,7 +56,7 @@ class AppController {
         }
     }
 
-    async getByAppBundle(req, res, next) {
+    getByAppBundle = async (req, res, next) => {
         try {
             const {app_bundle_ios, app_bundle_android} = req.query
 
