@@ -24,11 +24,11 @@ class AppController {
             const app_bundle_ios = body.app_bundle_ios
             const app_bundle_android = body.app_bundle_android
 
-            if(!app_bundle_ios && !app_bundle_android) {
+            if (!(app_bundle_ios || !app_bundle_android)) {
                 return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
             }
 
-            const app = await App.create({app_bundle_ios, app_bundle_android});
+            const app = await App.create({ app_bundle_ios, app_bundle_android });
             
             res.body = app
             return next(res)
@@ -39,10 +39,10 @@ class AppController {
 
     async getAll(req, res, next) {
         try {
-            const {app_bundle_ios, app_bundle_android} = req.query
+            const { app_bundle_ios, app_bundle_android } = req.query
 
             if (app_bundle_ios || app_bundle_android) {
-                return await this.getByAppBundle(req, res, next)
+                await this.getByAppBundle(req, res, next)
             }
 
             const apps = await App.findAll({
@@ -56,20 +56,27 @@ class AppController {
         }
     }
 
-    getByAppBundle = async (req, res, next) => {
+    async getByAppBundle(req, res, next) {
         try {
-            const {app_bundle_ios, app_bundle_android} = req.query
+            const { app_bundle_ios, app_bundle_android } = req.query
 
-            if(!(app_bundle_ios || app_bundle_android)) {
+            if (!(app_bundle_ios || app_bundle_android)) {
                 return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
             }
 
             let app;
 
             if (app_bundle_ios) {
-                app = await App.findOne({ where: { app_bundle_ios: app_bundle_ios } })
+                app = await App.findOne({ 
+                    where: { app_bundle_ios: app_bundle_ios },
+                    include: AppController.appAssosiations,
+                    
+                })
             } else if (app_bundle_android) {
-                app = await App.findOne({ where: { app_bundle_android: app_bundle_android } })
+                app = await App.findOne({ 
+                    where: { app_bundle_android: app_bundle_android },
+                    include: AppController.appAssosiations,
+                })
             }
 
             res.body = app
@@ -87,7 +94,7 @@ class AppController {
             })
 
             res.body = app
-            next(res)
+            return next(res)
         } catch (error) {
             return next(error)
         }
