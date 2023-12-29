@@ -8,10 +8,10 @@ class AppController {
         {
             association: 'webview',
         },
-        // {
-        //     association: 'bundle_id',
-        //     allowNull: true,
-        // },
+        {
+            model: BundleId,
+            allowNull: true,
+        },
         {
             association: 'appsflyer',
             allowNull: true,
