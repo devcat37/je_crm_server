@@ -4,8 +4,6 @@ const { DataTypes } = require('sequelize')
 const App = sequelize.define('app', {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         name: {type: DataTypes.STRING, allowNull: false},
-        // app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
-        // app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
 }, { timestamps: false })
 
 const Webview = sequelize.define('webview', {
@@ -32,13 +30,17 @@ const Analytics = sequelize.define('analytics', {
     params: {type: DataTypes.TEXT, allowNull: true},
 })
 
-
 const BundleId = sequelize.define('bundle_id', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
     app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
     type: {type: DataTypes.ENUM, values: ['debug', 'release']},
 }, { timestamps: false })
+
+const Installation = sequelize.define('installation', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    params: {type: DataTypes.TEXT, allowNull: true},
+})
 
 App.hasOne(Webview)
 Webview.belongsTo(App)
@@ -55,6 +57,15 @@ Apphud.belongsTo(App)
 App.hasMany(Analytics)
 Analytics.belongsTo(App)
 
+App.hasMany(Installation)
+Installation.belongsTo(App)
+
 module.exports = {
-    App, Webview, Appsflyer, Apphud, Analytics, BundleId,
+    App, 
+    Webview, 
+    Appsflyer, 
+    Apphud, 
+    Analytics, 
+    BundleId, 
+    Installation,
 }
