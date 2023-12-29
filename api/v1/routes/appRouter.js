@@ -5,6 +5,7 @@ const appController = require('../controllers/app_controller')
 
 router.get('/', appController.getAll)
 router.get('/:id', appController.getOne)
+router.post('/:id/bundle', appController.createBundle)
 router.post('/', appController.create)
 
 module.exports = router

@@ -58,5 +58,5 @@ App.hasMany(Analytics)
 Analytics.belongsTo(App)
 
 module.exports = {
-    App, Webview, Appsflyer, Apphud, Analytics,
+    App, Webview, Appsflyer, Apphud, Analytics, BundleId,
 }
