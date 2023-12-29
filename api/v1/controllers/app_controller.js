@@ -131,6 +131,7 @@ class AppController {
             }
 
             const bundle = await BundleId.create({
+                appId: id,
                 app_bundle_ios, app_bundle_android, type,
             })
 
