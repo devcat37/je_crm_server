@@ -69,7 +69,8 @@ class AppController {
 
     static async #getByAppBundle(req, res, next) {
         try {
-            const { app_bundle_ios, app_bundle_android, type } = req.query
+            const { app_bundle_ios, app_bundle_android } = req.query
+            let { type } = req.query
 
             if (!type) {
                 type = 'debug'
