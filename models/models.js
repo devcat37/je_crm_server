@@ -30,7 +30,7 @@ const Analytics = sequelize.define('analytics', {
     session_id: {type: DataTypes.STRING, allowNull: true},
     link: {type: DataTypes.STRING, allowNull: false},
     params: {type: DataTypes.TEXT, allowNull: true},
-}, { timeStamps: false })
+})
 
 
 const BundleId = sequelize.define('bundle_id', {
