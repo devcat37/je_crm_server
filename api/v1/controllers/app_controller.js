@@ -32,15 +32,28 @@ class AppController {
             const app_bundle_ios = body.app_bundle_ios
             const app_bundle_android = body.app_bundle_android
 
-            if (!(app_bundle_ios || app_bundle_android)) {
-                return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
-            }
+            // if (!(app_bundle_ios || app_bundle_android)) {
+            //     return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
+            // }
 
             if (!name) {
                 return next(ApiError.badRequest('Нет параметра name!'))
             }
 
-            const app = await App.create({ name, app_bundle_ios, app_bundle_android });
+            let app = await App.create({ name });
+
+            if (app_bundle_ios || app_bundle_android) {
+                const bundle = await BundleId.create({ 
+                    appId: app.id,
+                    app_bundle_android: app_bundle_android ?? null, 
+                    app_bundle_ios: app_bundle_ios ?? null, 
+                    type: 'release',
+                })
+
+                if (bundle) {
+                    app = await App.findByPk(app.id, { include: AppController.appAssosiations });
+                }
+            }
             
             res.body = app
             return next(res)
