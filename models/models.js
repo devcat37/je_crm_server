@@ -6,24 +6,24 @@ const App = sequelize.define('app', {
         name: {type: DataTypes.STRING, allowNull: false},
         // app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
         // app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
-}, { timeStamps: false })
+}, { timestamps: false })
 
 const Webview = sequelize.define('webview', {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         reference: {type: DataTypes.STRING, allowNull: false},
         enabled: {type: DataTypes.BOOLEAN, defaultValue: false},
-}, { timeStamps: false })
+}, { timestamps: false })
 
 const Appsflyer = sequelize.define('appsflyer', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     dev_key: {type: DataTypes.STRING, allowNull: false},
     appsflyer_app_id: {type: DataTypes.STRING, allowNull: false},
-}, { timeStamps: false })
+}, { timestamps: false })
 
 const Apphud = sequelize.define('apphud', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     api_key: {type: DataTypes.STRING, allowNull: false},
-}, { timeStamps: false })
+}, { timestamps: false })
 
 const Analytics = sequelize.define('analytics', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -38,7 +38,7 @@ const BundleId = sequelize.define('bundle_id', {
     app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
     app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
     type: {type: DataTypes.ENUM, values: ['debug', 'release']},
-}, { timeStamps: false })
+}, { timestamps: false })
 
 App.hasOne(Webview)
 Webview.belongsTo(App)
