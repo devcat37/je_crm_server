@@ -1,5 +1,6 @@
 const ApiError = require('../../error/api_error')
 const { App, BundleId } = require('../../../models/models')
+const { Op } = require('sequelize')
 
 class AppController {
     
