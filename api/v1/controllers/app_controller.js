@@ -81,18 +81,38 @@ class AppController {
                 return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
             }
 
-            let bundle;
+            const bundle = await BundleId.findOne({
+                where: { 
+                    [Op.and]: [
+                        { type: type },
+                        {[Op.or]: [ { 
+                            app_bundle_ios: app_bundle_ios, 
+                            app_bundle_android: app_bundle_android 
+                        } ],},
+                    ],
+                    // app_bundle_ios: app_bundle_ios 
+                },
+            })
 
-            if (app_bundle_ios) {
-                bundle = await BundleId.findOne({
-                    where: { app_bundle_ios: app_bundle_ios },
-                })
+            // if (app_bundle_ios) {
+            //     bundle = await BundleId.findOne({
+            //         where: { 
+            //             [Op.and]: [
+            //                 { type: type },
+            //                 {[Op.or]: [ { 
+            //                     app_bundle_ios: app_bundle_ios, 
+            //                     app_bundle_android: app_bundle_android 
+            //                 } ],},
+            //             ],
+            //             // app_bundle_ios: app_bundle_ios 
+            //         },
+            //     })
                 
-            } else if (app_bundle_android) {
-                bundle = await BundleId.findOne({
-                    where: { app_bundle_android: app_bundle_android },
-                })
-            }
+            // } else if (app_bundle_android) {
+            //     bundle = await BundleId.findOne({
+            //         where: { app_bundle_android: app_bundle_android },
+            //     })
+            // }
 
             if (!bundle) {
                 return next(ApiError.badRequest('Не найдена конфигурация для указанных bundle ids'))
