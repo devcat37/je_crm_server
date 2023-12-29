@@ -85,10 +85,12 @@ class AppController {
                 where: { 
                     [Op.and]: [
                         { type: type },
-                        {[Op.or]: [ { 
-                            app_bundle_ios: app_bundle_ios, 
-                            app_bundle_android: app_bundle_android 
-                        } ],},
+                        {
+                            [Op.or]: [ 
+                                { app_bundle_ios: app_bundle_ios, },
+                                { app_bundle_android: app_bundle_android, },
+                            ],
+                        },
                     ],
                     // app_bundle_ios: app_bundle_ios 
                 },
