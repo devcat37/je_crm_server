@@ -84,7 +84,9 @@ class AppController {
 
             if (app_bundle_ios) {
                 app = await App.findOne({ 
-                    // where: { '$bundle_ids.app_bundle_ios$': app_bundle_ios },
+                    where: {
+                        '$bundle_ids.app_bundle_ios$': { [Op.eq]: app_bundle_ios },
+                    },
                     include: AppController.appAssosiations,
                 })
             } else if (app_bundle_android) {
