@@ -81,21 +81,26 @@ class AppController {
                 return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
             }
 
-            let app;
+            let bundle;
 
             if (app_bundle_ios) {
-                app = await App.findOne({ 
-                    where: {
-                        '$bundle_ids.app_bundle_ios$': { [Op.eq]: app_bundle_ios },
-                    },
-                    include: AppController.appAssosiations,
+                bundle = await BundleId.findOne({
+                    where: { app_bundle_ios: app_bundle_ios },
                 })
+                
             } else if (app_bundle_android) {
-                app = await App.findOne({ 
-                    // where: { '$bundle_ids.app_bundle_android$': app_bundle_android },
-                    include: AppController.appAssosiations,
+                bundle = await BundleId.findOne({
+                    where: { app_bundle_android: app_bundle_android },
                 })
             }
+
+            if (!bundle) {
+                return next(ApiError.badRequest('Не найдена конфигурация для указанных bundle ids'))
+            }
+
+            const app = await App.findByPk(bundle.appId, {
+                include: AppController.appAssosiations,
+            })
 
             res.body = app
             return next(res)
