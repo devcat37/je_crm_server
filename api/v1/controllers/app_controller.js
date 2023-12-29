@@ -1,5 +1,5 @@
 const ApiError = require('../../error/api_error')
-const { App } = require('../../../models/models')
+const { App, BundleId } = require('../../../models/models')
 
 class AppController {
     
@@ -9,6 +9,10 @@ class AppController {
             association: 'webview',
         },
         {
+            association: 'bundle_id',
+            allowNull: true,
+        },
+        {
             association: 'appsflyer',
             allowNull: true,
         },
@@ -16,6 +20,7 @@ class AppController {
             association: 'apphud',
             allowNull: true,
         },
+        
     ]
 
     async create(req, res, next) {
@@ -64,7 +69,11 @@ class AppController {
 
     static async #getByAppBundle(req, res, next) {
         try {
-            const { app_bundle_ios, app_bundle_android } = req.query
+            const { app_bundle_ios, app_bundle_android, type } = req.query
+
+            if (!type) {
+                type = 'debug'
+            }
 
             if (!(app_bundle_ios || app_bundle_android)) {
                 return next(ApiError.badRequest('Нет параметров app_bundle_ios или app_bundle_android!'))
@@ -74,13 +83,12 @@ class AppController {
 
             if (app_bundle_ios) {
                 app = await App.findOne({ 
-                    where: { app_bundle_ios: app_bundle_ios },
+                    where: { 'bundle_ids.app_bundle_ios': app_bundle_ios },
                     include: AppController.appAssosiations,
-                    
                 })
             } else if (app_bundle_android) {
                 app = await App.findOne({ 
-                    where: { app_bundle_android: app_bundle_android },
+                    where: { 'bundle_ids.app_bundle_android': app_bundle_android },
                     include: AppController.appAssosiations,
                 })
             }
@@ -94,12 +102,39 @@ class AppController {
 
     async getOne(req, res, next) {
         try {
-            const {id} = req.params
+            const { id } = req.params
             const app = await App.findByPk(id, {
                 include: AppController.appAssosiations,
             })
 
             res.body = app
+            return next(res)
+        } catch (error) {
+            return next(error)
+        }
+    }
+
+    async createBundle(req, res, next) {
+        try {
+            const { id } = req.params
+            const { app_bundle_ios, app_bundle_android, type } = req.body
+            
+            // Ищем приложение по ID.
+            const app = await App.findByPk(id)
+
+            if (!app) {
+                return next(ApiError.badRequest(`Не существует приложения с ID ${id}`))
+            }
+
+            if (!((app_bundle_ios || app_bundle_android) && type)) {
+                return next(ApiError.badRequest(`Необходимы параметры (app_bundle_ios или app_bundle_android) и type [debug, release]`))
+            }
+
+            const bundle = await BundleId.create({
+                app_bundle_ios, app_bundle_android, type,
+            })
+
+            res.body = bundle
             return next(res)
         } catch (error) {
             return next(error)

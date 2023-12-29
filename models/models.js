@@ -1,11 +1,11 @@
 const sequelize = require('../db')
-const {DataTypes} = require('sequelize')
+const { DataTypes } = require('sequelize')
 
 const App = sequelize.define('app', {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         name: {type: DataTypes.STRING, allowNull: false},
-        app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
-        app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
+        // app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
+        // app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
     }
 )
 
@@ -34,8 +34,19 @@ const Analytics = sequelize.define('analytics', {
     params: {type: DataTypes.TEXT, allowNull: true},
 })
 
+
+const BundleId = sequelize.define('bundle_id', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    app_bundle_ios: {type: DataTypes.STRING, unique: true, allowNull: true},
+    app_bundle_android: {type: DataTypes.STRING, unique: true, allowNull: true},
+    type: {type: DataTypes.ENUM, values: ['debug', 'release']},
+})
+
 App.hasOne(Webview)
 Webview.belongsTo(App)
+
+App.hasMany(BundleId)
+BundleId.belongsTo(App)
 
 App.hasOne(Appsflyer)
 Appsflyer.belongsTo(App)
