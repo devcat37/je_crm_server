@@ -4,13 +4,13 @@ const { Apphud } = require('../../../models/models')
 class ApphudController {
     async create(req, res, next) {
         try {
-            const {appId, api_key} = req.body
+            const { appId, api_key, product_id } = req.body
 
-            if(!appId) {
+            if (!appId) {
                 return next(ApiError.badRequest('Нет параметра appId!'))
             }
 
-            const apphud = await Apphud.create({appId, api_key})
+            const apphud = await Apphud.create({ appId, api_key, product_id })
 
             res.body = apphud
             return next(res)
@@ -36,7 +36,7 @@ class ApphudController {
 
     async edit(req, res, next) {
         try {
-            const {id} = req.params
+            const { id } = req.params
             const body = req.body
 
             const apphud = await Apphud.findByPk(id)
