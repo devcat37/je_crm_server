@@ -21,7 +21,7 @@ const Appsflyer = sequelize.define('appsflyer', {
 const Apphud = sequelize.define('apphud', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     api_key: {type: DataTypes.STRING, allowNull: false},
-    product_id: {type: DataTypes.STRING, allowNull: false},
+    product_id: {type: DataTypes.STRING, allowNull: true},
 }, { timestamps: false })
 
 const Analytics = sequelize.define('analytics', {
