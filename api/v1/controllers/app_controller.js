@@ -109,26 +109,6 @@ class AppController {
                 },
             })
 
-            // if (app_bundle_ios) {
-            //     bundle = await BundleId.findOne({
-            //         where: { 
-            //             [Op.and]: [
-            //                 { type: type },
-            //                 {[Op.or]: [ { 
-            //                     app_bundle_ios: app_bundle_ios, 
-            //                     app_bundle_android: app_bundle_android 
-            //                 } ],},
-            //             ],
-            //             // app_bundle_ios: app_bundle_ios 
-            //         },
-            //     })
-                
-            // } else if (app_bundle_android) {
-            //     bundle = await BundleId.findOne({
-            //         where: { app_bundle_android: app_bundle_android },
-            //     })
-            // }
-
             if (!bundle) {
                 return next(ApiError.badRequest('Не найдена конфигурация для указанных bundle ids'))
             }
@@ -157,6 +137,25 @@ class AppController {
             return next(error)
         }
     }
+
+    async edit(req, res, next) {
+        try {
+            const { id } = req.params
+            const body = req.body
+
+            const app = await App.findByPk(id)
+            await app.update(body)
+
+            // Сохраняем изменения.
+            await app.save()
+            
+            res.body = app
+
+            return next(res)
+        } catch (error) {
+            return next(error)
+        }
+    }    
 
     async createBundle(req, res, next) {
         try {
