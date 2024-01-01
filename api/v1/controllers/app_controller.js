@@ -191,6 +191,9 @@ class AppController {
         try {
             const { id, bundle_id } = req.params
             const body = req.body
+
+            const app_bundle_ios = body.app_bundle_ios
+            const app_bundle_android = body.app_bundle_android
             
             // Ищем приложение по ID.
             const app = await App.findByPk(id)
