@@ -143,7 +143,9 @@ class AppController {
             const { id } = req.params
             const body = req.body
 
-            const app = await App.findByPk(id)
+            const app = await App.findByPk(id, {
+                include: AppController.appAssosiations,
+            })
             await app.update(body)
 
             // Сохраняем изменения.
