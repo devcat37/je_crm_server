@@ -186,6 +186,36 @@ class AppController {
             return next(error)
         }
     }
+
+    async editBundle(req, res, next) {
+        try {
+            const { id, bundle_id } = req.params
+            const body = req.body
+            
+            // Ищем приложение по ID.
+            const app = await App.findByPk(id)
+
+            if (!app) {
+                return next(ApiError.badRequest(`Не существует приложения с ID ${id}`))
+            }
+
+            if (!(app_bundle_ios || app_bundle_android)) {
+                return next(ApiError.badRequest(`Необходимы параметры (app_bundle_ios или app_bundle_android)`))
+            }
+
+            const bundle = await BundleId.findByPk(bundle_id)
+
+            await bundle.update(body)
+
+            // Сохраняем изменения.
+            await bundle.save()
+
+            res.body = bundle
+            return next(res)
+        } catch (error) {
+            return next(error)
+        }
+    }
 }
 
 module.exports = new AppController()
